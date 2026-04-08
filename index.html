@@ -2,69 +2,133 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <!-- CRUCIAL pour le mobile : adapte la largeur à l'écran du téléphone -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foyer Rural Saint Paul 19</title>
+    <title>Foyer rural St Paul Corrèze</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 700px; margin: auto; padding: 20px; background-color: #f9f9f9; }
-        h1 { color: #2c3e50; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; }
-        .activite { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 40px; border-left: 5px solid #3498db; }
-        .activite img { max-width: 100%; height: auto; border-radius: 4px; margin-bottom: 15px; }
-        .infos { text-align: left; background: #f0f7fd; padding: 15px; border-radius: 5px; }
-        .statut-ouvert { color: #27ae60; font-weight: bold; font-size: 1.2em; border: 2px solid #27ae60; display: inline-block; padding: 5px 15px; border-radius: 20px; }
-        .statut-complet { color: #e74c3c; font-weight: bold; font-size: 1.2em; border: 2px solid #e74c3c; display: inline-block; padding: 5px 15px; border-radius: 20px; }
-        .archive { opacity: 0.7; border-left: 5px solid #bdc3c7; }
-        .compteur { margin-top: 50px; font-size: 0.8em; color: #95a5a6; }
+        /* Style pour le compteur en bas de page */
+        .footer-compteur {
+        margin-top: 50px;
+        padding: 20px;
+        font-size: 0.8em;
+        color: #95a5a6;
+        border-top: 1px solid #ddd;
+        width: 100%;
+        text-align: center;
+}
+        /* --- STYLE GÉNÉRAL --- */
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 10px; /* Petit espace sur mobile */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 { color: #2c3e50; text-align: center; }
+
+        /* --- CONTENEUR DES CARTES --- */
+        #listeActivites {
+            width: 100%;
+            max-width: 600px; /* Limite la largeur sur ordinateur */
+        }
+
+        /* --- CARTE D'ACTIVITÉ --- */
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: relative; /* Pour positionner le badge "Complet" dessus */
+        }
+
+        .card img {
+            width: 100%; /* L'image prend toute la largeur de la carte */
+            display: block;
+        }
+
+        .card-body { padding: 15px; }
+
+        /* --- BADGE COMPLET --- */
+        .badge-complet {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #d63031;
+            color: white;
+            padding: 8px 15px;
+            font-weight: bold;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .titre-act { margin: 0; color: #333; font-size: 1.2em; }
+        .info-places { color: #636e72; font-size: 0.9em; margin-top: 5px; }
     </style>
 </head>
 <body>
 
-    <h1>Notre Association</h1>
+    <h1>Nos Événements</h1>
 
-    <div class="activite">
-        <img src="moulesfrites.jpg" alt="Affiche">
-        <div class="infos">
-            <h3>Prochaine rencontre : Soirée Burger</h3>
-            <p><strong>Date :</strong> 20 Juin 2026</p>
-            <p><strong>Lieu :</strong> Salle des fêtes St Paul</p>
-            <p><strong>Détails :</strong> Communiquations de l'horaire à suivre.</p>
+    <div id="listeActivites">
+        <!-- Le JavaScript va remplir cette section -->
+    </div>
+
+    <script>
+        /* --- CONFIGURATION DES DONNÉES --- */
+        // Ajoute tes activités ici. La première est la plus récente.
+        const mesActivites = [
+            {
+                titre: "Soirée moules frits karaoké",
+                image: "moulesfrites.jpg", // Nom de ton fichier image
+                inscrits: 30,
+                quota: 30
+            },
+            {
+                titre: "Aligot saucisse",
+                image: "aligot.jpg",
+                inscrits: 12,
+                quota: 50
+            }
+        ];
+
+        /* --- LOGIQUE DE GÉNÉRATION --- */
+        const container = document.getElementById('listeActivites');
+
+        mesActivites.forEach(act => {
+            // On vérifie si c'est complet
+            const estComplet = act.inscrits >= act.quota;
             
-            <div class="statut-ouvert">INSCRIPTIONS OUVERTES (Place limitées)</div>
-        </div>
+            // On crée le HTML de la carte
+            const structure = `
+                <div class="card">
+                    ${estComplet ? '<div class="badge-complet">COMPLET</div>' : ''}
+                    <img src="${act.image}" alt="Affiche de ${act.titre}">
+                    <div class="card-body">
+                        <h2 class="titre-act">${act.titre}</h2>
+                        <p class="info-places">Inscriptions : ${act.inscrits} / ${act.quota}</p>
+                    </div>
+                </div>
+            `;
+            
+            // On l'ajoute dans la page
+            container.innerHTML += structure;
+        });
+    </script>
+    <!-- ... tout le reste de ton contenu (titres, activités) est au-dessus ... -->
+
+    <!-- PLACER LE PIED DE PAGE ICI -->
+    <div class="footer-compteur">
+        <p>© <span id="annee"></span> Association Votre Nom</p>
+        <img src="https://hitwebcounter.com/..." border="0" />
     </div>
 
-    <hr>
-    <h4>Activités précédentes</h4>
-
-    <div class="activite archive">
-        <p><strong>21 Février 2026 :</strong> Aligot saucisse (Terminé)</p>
-    </div>
-
-    <div class="activite archive">
-        <p><strong>01 Mars 2026 :</strong> Assemblée Générale (Terminé)</p>
-    </div>
-    <footer style="margin-top: 50px; border-top: 1px solid #ddd; padding: 20px 10px; font-size: 0.8em; color: #777; line-height: 1.5;">
-        
-        <p><strong>&copy; 2026 Foyer Rural Saint Paul Corrèze</strong> - Tous droits réservés.</p>
-        
-        <p>Association loi 1901 | RNA : W000000000<br>
-        Directeur de la publication : Le Président de l'association</p>
-
-        <p style="margin-top: 15px;">
-            <em>Hébergeur : GitHub Inc. 88 Colin P. Kelly Jr St, San Francisco, CA 94107, États-Unis.</em>
-        </p>
-
-        <div style="margin-top: 20px; opacity: 0.8;">
-            <p style="margin-bottom: 5px;">Visites :</p>
-            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Ffoyer19.github.io%2FFoyerStPaul19%2F&count_bg=%233498db&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visites&edge_flat=false" alt="Compteur"/>
-            <!--<img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://https://foyer19.github.io/FoyerStPaul19/&count_bg=%233498db&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Vues&edge_flat=false" alt="Compteur"/>
-       --> </div>
-
-    </footer>
-
-   <!-- <div class="compteur">
-        <p>Vues :</p>
-        <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://foyer19.github.io/FoyerStPaul19&count_bg=%233498db&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visites&edge_flat=false" alt="Compteur"/>
-    </div> -->
-
+    <!-- Le script vient TOUJOURS après le HTML pour pouvoir le modifier -->
+    <script>
+        // Ton code pour l'année et les activités
+    </script>
 </body>
 </html>

@@ -57,9 +57,15 @@
             }
         ];
         // 3. Affichage des activités
-        const container = document.getElementById('listeActivites');
+          const container = document.getElementById('listeActivites');
+        
+        // On vide le container au cas où
+        container.innerHTML = ""; 
+
         mesActivites.forEach(act => {
             const complet = act.inscrits >= act.quota;
+            
+            // UTILISE BIEN .innerHTML ICI :
             container.innerHTML += `
                 <div class="card">
                     ${complet ? '<div class="badge-complet">COMPLET</div>' : ''}

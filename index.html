@@ -49,7 +49,14 @@
             width: 100%; /* L'image prend toute la largeur de la carte */
             display: block;
         }
-
+        /* Ajoute cette règle spécifique pour le compteur */
+        .footer-compteur img {
+            width: auto;   /* Ne force pas la largeur */
+            height: auto;  /* Ne force pas la hauteur */
+            max-width: 150px; /* Limite la taille pour qu'il reste discret */
+            display: inline-block;
+            margin-top: 10px;
+        }
         .card-body { padding: 15px; }
 
         /* --- BADGE COMPLET --- */

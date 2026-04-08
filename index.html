@@ -57,25 +57,24 @@
             }
         ];
         // 3. Affichage des activités
-          const container = document.getElementById('listeActivites');
-        
-        // On vide le container au cas où
+          
+        const container = document.getElementById('listeActivites');
         container.innerHTML = ""; 
 
-        mesActivites.forEach(act => {
-            const complet = act.inscrits >= act.quota;
+        mesActivites.forEach(function(act) {
+            var badge = (act.inscrits >= act.quota) ? '<div class="badge-complet">COMPLET</div>' : '';
             
-            // UTILISE BIEN .innerHTML ICI :
-            container.innerHTML += `
-                <div class="card">
-                    ${complet ? '<div class="badge-complet">COMPLET</div>' : ''}
-                    <img src="${act.image}" alt="${act.titre}">
-                    <div class="card-body">
-                        <h3>${act.titre}</h3>
-                        <p>Places : ${act.inscrits} / ${act.quota}</p>
-                    </div>
-                </div>
-            `;
+            // On construit la carte proprement
+            var carte = '<div class="card">' +
+                        badge +
+                        '<img src="' + act.image + '" alt="' + act.titre + '">' +
+                        '<div class="card-body">' +
+                        '<h3>' + act.titre + '</h3>' +
+                        '<p>Places : ' + act.inscrits + ' / ' + act.quota + '</p>' +
+                        '</div>' +
+                        '</div>';
+            
+            container.innerHTML += carte;
         });
     </script>
 </body>

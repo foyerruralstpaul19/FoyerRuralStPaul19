@@ -2,166 +2,62 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <!-- CRUCIAL pour le mobile : adapte la largeur à l'écran du téléphone -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Foyer rural St Paul Corrèze</title>
+    <title>Foyer St Paul 19</title>
     <style>
-        /* Style pour le compteur en bas de page */
-        .footer-compteur {
-        margin-top: 50px;
-        padding-bottom: 30px;
-        font-size: 0.8em;
-        color: #95a5a6;
-        border-top: 1px solid #eeeeee;
-        width: 100%;
-        text-align: center;
-}
-       .footer-compteur p {
-           margin-bottom: 15PX;
-           font-familly: sans serif;
-           color: #555;
-       }
-        
-        /* --- STYLE GÉNÉRAL --- */
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 10px; /* Petit espace sur mobile */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        h1 { color: #2c3e50; text-align: center; }
-
-        /* --- CONTENEUR DES CARTES --- */
-        #listeActivites {
-            width: 100%;
-            max-width: 600px; /* Limite la largeur sur ordinateur */
-        }
-
-        /* --- CARTE D'ACTIVITÉ --- */
-        .card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            position: relative; /* Pour positionner le badge "Complet" dessus */
-        }
-
-        .card img {
-            width: 100%; /* L'image prend toute la largeur de la carte */
-            display: block;
-        }
-        /* Ajoute cette règle spécifique pour le compteur */
-        .footer-compteur img {
-            width: auto;   /* Ne force pas la largeur */
-            height: auto;  /* Ne force pas la hauteur */
-            max-width: 150px; /* Limite la taille pour qu'il reste discret */
-            display: inline-block;
-            margin-top: 10px;
-        }
-        .card-body { padding: 15px; }
-
-        /* --- BADGE COMPLET --- */
-        .badge-complet {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background-color: #d63031;
-            color: white;
-            padding: 8px 15px;
-            font-weight: bold;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-        }
-
-        .titre-act { margin: 0; color: #333; font-size: 1.2em; }
-        .info-places { color: #636e72; font-size: 0.9em; margin-top: 5px; }
+        body { font-family: sans-serif; background-color: #f4f4f4; margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        #listeActivites { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; margin-top: 20px; }
+        .card { width: 250px; background: white; border: 1px solid #ddd; border-radius: 8px; overflow: hidden; position: relative; }
+        .card img { width: 100%; height: auto; }
+        .card-body { padding: 10px; }
+        .badge-complet { position: absolute; top: 10px; left: 10px; background: red; color: white; padding: 5px 10px; font-weight: bold; border-radius: 5px; }
+        footer { margin-top: 50px; padding: 20px; border-top: 1px solid #ddd; color: #666; }
+        .compteur-img { margin-top: 10px; max-width: 150px; height: auto; }
     </style>
 </head>
 <body>
 
-    <h1>Foyer Rural St Paul Corrèze</h1>
-
-    <div id="listeActivites">
-        <!-- Le JavaScript va remplir cette section -->
+    <div class="container">
+        <h1>Activités du Foyer St Paul</h1>
+        <div id="listeActivites">
+            </div>
     </div>
 
+    <footer>
+        <p>© <span id="annee"></span> Foyer St Paul 19</p>
+        <img class="compteur-img" src="https://komarev.com/ghpvc/?username=foyerstpaul19&color=blue&style=flat&label=VISITES" alt="Compteur de visites">
+    </footer>
+
     <script>
-        /* --- CONFIGURATION DES DONNÉES --- */
-        // Ajoute tes activités ici. La première est la plus récente.
+        // 1. Mise à jour de l'année
+        document.getElementById('annee').textContent = new Date().getFullYear();
+
+        // 2. Ta liste d'activités
         const mesActivites = [
             {
-                titre: "Soirée moules frits karaoké",
-                image: "moulesfrites.jpg", // Nom de ton fichier image
-                inscrits: 30,
-                quota: 30
-            },
-            {
-                titre: "Aligot saucisse",
-                image: "aligot.jpg",
-                inscrits: 51,
-                quota: 50
+                titre: "Exemple d'activité",
+                image: "affiche1.jpg", // Remplace par le nom de ton image sur GitHub
+                inscrits: 10,
+                quota: 20
             }
         ];
 
-        /* --- LOGIQUE DE GÉNÉRATION --- */
+        // 3. Affichage des activités
         const container = document.getElementById('listeActivites');
-
         mesActivites.forEach(act => {
-            // On vérifie si c'est complet
-            const estComplet = act.inscrits >= act.quota;
-            
-            // On crée le HTML de la carte
-            const structure = `
+            const complet = act.inscrits >= act.quota;
+            container.innerHTML += `
                 <div class="card">
-                    ${estComplet ? '<div class="badge-complet">COMPLET</div>' : ''}
-                    <img src="${act.image}" alt="Affiche de ${act.titre}">
+                    ${complet ? '<div class="badge-complet">COMPLET</div>' : ''}
+                    <img src="${act.image}" alt="${act.titre}">
                     <div class="card-body">
-                        <h2 class="titre-act">${act.titre}</h2>
-                        <p class="info-places">Inscriptions : ${act.inscrits} / ${act.quota}</p>
+                        <h3>${act.titre}</h3>
+                        <p>Places : ${act.inscrits} / ${act.quota}</p>
                     </div>
                 </div>
             `;
-            
-            // On l'ajoute dans la page
-            container.innerHTML += structure;
         });
-    </script>
-    <!-- ... tout le reste de ton contenu (titres, activités) est au-dessus ... -->
-
-    <!-- PLACER LE PIED DE PAGE ICI -->
-    <div class="footer-compteur">
-        <hr>
-        <p>© <span id="annee"></span> Foyer Rural 2026</p>
-       
-       <div style="margin-top: 15px;">
-    <!-- Ce compteur est hébergé directement par un service compatible GitHub -->
-            <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Ffoyer19.github.io%2FFoyerStPaul19&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visites&edge_flat=false" alt="Compteur de visites"/>
-        </div>
-    
-</div>
-        
-       <!-- <img src="https://hitwebcounter.com/..." alt="Visites">-->
-       <!-- <img src="https://hitwebcounter.com/..." border="0" />-->
-    </div>
-
-    <!-- Le script vient TOUJOURS après le HTML pour pouvoir le modifier -->
-   <script>
-    // Cette ligne est magique : elle attend que TOUT soit prêt
-    window.addEventListener('DOMContentLoaded', (event) => {
-        const elementAnnee = document.getElementById('annee');
-        if (elementAnnee) {
-            elementAnnee.textContent = new Date().getFullYear();
-        }
-    });
-</script>
-    
-    <script>
-        // Ton code pour l'année et les activités
     </script>
 </body>
 </html>
